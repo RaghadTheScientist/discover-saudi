@@ -77,11 +77,11 @@ Make sure these are installed on your Mac before starting:
 
 ### Step 2 — Clone the Repository
 
-# 1. Clone the project from GitHub to your device
+#### 1. Clone the project from GitHub to your device
 
-# 3. Open the project folder in the VS editor
+#### 2. Open the project folder in the VS editor
 
-### Step 4 — Daily Git Workflow
+### Step 3 — Daily Git Workflow
 
 Every time you sit down to work, follow this order:
 
