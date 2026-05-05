@@ -57,9 +57,8 @@ discover-saudi/
 | **Person 1** | `index.php`, `login.php`, `shared.css`, `home.css`, `home.js`, `admin.css`, `db_config.php`, `saudi_db.sql` |
 | **Person 2** | `gallery.php`, `add_content.php`, `gallery.css`, `filter.js` |
 | **Person 3** | `details.php`, `dashboard.php`, `update_content.php`, `delete.php`, `details.css`, `confirm.js` |
+ 
 
-> ⚠️ **Never edit someone else's file without telling them in the group chat first.**  
-> ⚠️ Only **Person 1** edits `shared.css` and `db_config.php`.
 
 ---
 
@@ -69,7 +68,7 @@ discover-saudi/
 
 Make sure these are installed on your Mac before starting:
 
-- [Github decktop](https://desktop.github.com/download/) — for version control
+- [Github desktop](https://desktop.github.com/download/) — for version control
 - [VS Code](https://code.visualstudio.com) — code editor
 - [MAMP](https://www.mamp.info) — local server to run PHP and MySQL
 
