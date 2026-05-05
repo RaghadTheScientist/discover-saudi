@@ -1,0 +1,233 @@
+
+.hero-section {
+    background: linear-gradient(135deg, #1a5c38 0%, #2d8c58 100%);
+    color: white;
+    padding: 60px 40px;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+}
+
+.hero-text {
+    flex: 1;
+}
+
+.hero-text h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.hero-description {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    opacity: 0.92;
+}
+
+.hero-btn {
+    display: inline-block;
+    background-color: white;
+    color: #1a5c38;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    font-family: 'Tajawal', sans-serif;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.hero-btn:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+/* Hero Welcome Card */
+.hero-welcome {
+    background: rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 40px 50px;
+    text-align: center;
+    min-width: 240px;
+    backdrop-filter: blur(6px);
+}
+
+.welcome-emoji {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.welcome-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.welcome-sub {
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+
+.features-section {
+    padding: 60px 40px;
+    background-color: var(--bg-color);
+}
+
+.features-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.feature-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px 24px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 14px;
+}
+
+.feature-card h3 {
+    color: #1a5c38;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.stats-section {
+    background-color: #1a5c38;
+    padding: 50px 40px;
+    color: white;
+}
+
+.stats-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    text-align: center;
+}
+
+.stat-card {
+    padding: 20px;
+}
+
+.stat-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 1rem;
+    opacity: 0.85;
+}
+
+.about-section {
+    padding: 60px 40px;
+    background-color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.about-content {
+    flex: 1;
+}
+
+.about-content h2 {
+    color: #1a5c38;
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+}
+
+.about-content p {
+    color: var(--text-muted);
+    line-height: 1.9;
+    margin-bottom: 24px;
+    font-size: 1rem;
+}
+
+.about-btn {
+    display: inline-block;
+    background-color: #1a5c38;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-family: 'Tajawal', sans-serif;
+    transition: background 0.3s;
+}
+
+.about-btn:hover {
+    background-color: #154d2f;
+}
+
+.about-image {
+    font-size: 8rem;
+    text-align: center;
+    min-width: 180px;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text h1 {
+        font-size: 1.6rem;
+    }
+
+    .features-grid,
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-image {
+        font-size: 5rem;
+    }
+}
