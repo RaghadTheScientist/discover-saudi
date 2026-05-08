@@ -3,7 +3,7 @@ include '../includes/db_config.php';
 
 $id = $_GET['id'];
 
-$sql = "SELECT * FROM places WHERE id = $id";
+$sql = "SELECT * FROM places WHERE region_id = $id";
 $result = mysqli_query($conn, $sql);
 $data = mysqli_fetch_assoc($result);
 
