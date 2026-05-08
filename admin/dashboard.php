@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin'])) {
 
 include '../includes/db_config.php';
 
-$sql = "SELECT * FROM places";
+$sql = "SELECT * FROM regions";
 $result = mysqli_query($conn, $sql);
 ?>
 
@@ -66,7 +66,7 @@ $result = mysqli_query($conn, $sql);
     <tr>
         <td><?php echo $row['id']; ?></td>
         <td><?php echo $row['name']; ?></td>
-        <td><?php echo $row['location']; ?></td>
+        <td><?php echo $row['direction']; ?></td>
         <td><?php echo $row['description']; ?></td>
 
         <td>

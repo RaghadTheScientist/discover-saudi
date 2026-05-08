@@ -8,14 +8,14 @@ if (!isset($_SESSION['admin'])) {
 
 include '../includes/db_config.php';
 
-$id = $_GET['id'];
+$region_id = $_GET['id'];
 
-$sql = "SELECT * FROM places WHERE id = $id";
+$sql = "SELECT * FROM places WHERE region_id = $region_id";
 $result = mysqli_query($conn, $sql);
 $data = mysqli_fetch_assoc($result);
 
 $images_sql = "SELECT * FROM gallery_images 
-               WHERE place_id = $id 
+               WHERE place_id = $region_id 
                ORDER BY image_order ASC";
 
 $images_result = mysqli_query($conn, $images_sql);
@@ -33,11 +33,11 @@ if (isset($_POST['update'])) {
 
     if (!empty($_FILES['main_image']['name'])) {
 
-        $main_image = $_FILES['main_image']['name'];
+        $main_image = "images/" . $_FILES['main_image']['name'];
 
         move_uploaded_file(
             $_FILES['main_image']['tmp_name'],
-            "../public/images/" . $main_image
+            "../public/images/" . $_FILES['main_image']['name']
         );
     }
 
@@ -51,14 +51,14 @@ if (isset($_POST['update'])) {
         top_landmarks='$top_landmarks',
         main_image='$main_image'
 
-        WHERE id=$id";
+        WHERE region_id=$region_id";
 
     mysqli_query($conn, $update);
 
     if (!empty($_FILES['gallery_images']['name'][0])) {
 
         mysqli_query($conn,
-            "DELETE FROM gallery_images WHERE place_id = $id"
+            "DELETE FROM gallery_images WHERE place_id = $region_id"
         );
 
         for ($i = 0; $i < count($_FILES['gallery_images']['name']); $i++) {
@@ -79,7 +79,7 @@ if (isset($_POST['update'])) {
 
                 VALUES
 
-                ($id, '$image_name', $order)";
+                ($region_id, 'images/$image_name', $order)";
 
                 mysqli_query($conn, $insert_img);
             }

@@ -10,7 +10,7 @@ include '../includes/db_config.php';
 
 $id = $_GET['id'];
 
-$sql = "DELETE FROM places WHERE id = $id";
+$sql = "DELETE FROM regions WHERE id = $id";
 
 mysqli_query($conn, $sql);
 

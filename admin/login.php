@@ -49,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <nav class="admin-nav" aria-label="التنقل الرئيسي للمشرف">
             <strong class="nav-brand">لوحة المشرف</strong>
             <ul class="nav-links" role="list">
-                <li><a href="../public/index.php">الصفحة الرئيسية</a></li>
-                <li><a href="../public/gallery.php">زيارة الموقع</a></li>
+                <li><a href="../public/index.html">الرئيسية</a></li>
+                <li><a href="../public/gallery.php">معرض المناطق</a></li>
             </ul>
         </nav>
     </header>
