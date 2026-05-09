@@ -2,16 +2,11 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-mysqli_report(
-    MYSQLI_REPORT_ERROR |
-    MYSQLI_REPORT_STRICT
-);
-
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 session_start();
 
 if (!isset($_SESSION['admin'])) {
-
     header("Location: login.php");
     exit();
 }
@@ -20,337 +15,182 @@ include '../includes/db_config.php';
 
 if (isset($_POST['add'])) {
 
-    $name = $_POST['name'];
-
-    $description = $_POST['description'];
-
-    $location = $_POST['location'];
-
-    $features = $_POST['features'];
-
-    $activities = $_POST['activities'];
-
+    $name          = $_POST['name'];
+    $region        = $_POST['region'];
+    $description   = $_POST['description'];
+    $location      = $_POST['location'];
+    $features      = $_POST['features'];
+    $activities    = $_POST['activities'];
     $top_landmarks = $_POST['top_landmarks'];
 
-    // الصورة الرئيسية
-    $main_image = "";
+    $folder_name = preg_replace('/\s+/', '_', trim($name));
+    $folder_path = "../public/images/" . $folder_name . "/";
 
-    // يجب اختيار صورة
-    if (
-        empty($_FILES['main_image']['name'])
-    ) {
-
-        die("يجب اختيار صورة");
+    if (!file_exists($folder_path)) {
+        mkdir($folder_path, 0755, true);
     }
 
-    // رفع الصورة الرئيسية
-    $main_image =
+    if (empty($_FILES['main_image']['name'])) {
+        die("يجب اختيار صورة رئيسية");
+    }
 
-        "images/" .
-
-        basename(
-            $_FILES['main_image']['name']
-        );
+    $main_ext   = pathinfo($_FILES['main_image']['name'], PATHINFO_EXTENSION);
+    $main_image = "images/" . $folder_name . "/main." . $main_ext;
 
     move_uploaded_file(
-
         $_FILES['main_image']['tmp_name'],
-
         "../public/" . $main_image
     );
 
-    // إضافة المنطقة
-    $insert_region = "
-
-        INSERT INTO regions
-
-        (
-            name,
-            direction,
-            description
-        )
-
-        VALUES
-
-        (
-            '$name',
-            '$location',
-            '$description'
-        )
-    ";
-
-    if(
-        !mysqli_query(
-            $conn,
-            $insert_region
-        )
-    ){
-
-        die(
-            "REGION ERROR: "
-            . mysqli_error($conn)
-        );
-    }
-
-    // أخذ region_id
-    $region_id = mysqli_insert_id($conn);
-    //$place_id = mysqli_insert_id($conn);
-    // إضافة المكان
     $insert_place = "
-
         INSERT INTO places
-
-        (
-            region_id,
-            name,
-            description,
-            location,
-            features,
-            activities,
-            top_landmarks,
-            main_image
-        )
-
+        (name, region, description, location, features, activities, top_landmarks, main_image)
         VALUES
-
-        (
-            '$region_id',
-            '$name',
-            '$description',
-            '$location',
-            '$features',
-            '$activities',
-            '$top_landmarks',
-            '$main_image'
-        )
+        ('$name', '$region', '$description', '$location', '$features', '$activities', '$top_landmarks', '$main_image')
     ";
 
-    if(
-        !mysqli_query(
-            $conn,
-            $insert_place
-        )
-    ){
+    mysqli_query($conn, $insert_place);
 
-        die(
-            "PLACE ERROR: "
-            . mysqli_error($conn)
-        );
+    $place_id = mysqli_insert_id($conn);
+
+    $gallery_fields = ['gallery_image_1', 'gallery_image_2', 'gallery_image_3'];
+    $gallery_order  = 1;
+
+    foreach ($gallery_fields as $field) {
+        if (!empty($_FILES[$field]['name'])) {
+            $ext          = pathinfo($_FILES[$field]['name'], PATHINFO_EXTENSION);
+            $gallery_path = "images/" . $folder_name . "/gallery" . $gallery_order . "." . $ext;
+
+            move_uploaded_file(
+                $_FILES[$field]['tmp_name'],
+                "../public/" . $gallery_path
+            );
+
+            $insert_img = "
+                INSERT INTO gallery_images (place_id, image_path, image_order)
+                VALUES ('$place_id', '$gallery_path', '$gallery_order')
+            ";
+
+            mysqli_query($conn, $insert_img);
+            $gallery_order++;
+        }
     }
 
-    // أخذ place_id
-    // $place_id = $region_id;
-
-    // إضافة الصورة في gallery_images
-    $insert_img = "
-
-        INSERT INTO gallery_images
-
-        (
-            place_id,
-            image_path,
-            image_order
-        )
-
-        VALUES
-
-        (
-            '$region_id',
-            '$main_image',
-            1
-        )
-    ";
-
-    if(
-        !mysqli_query(
-            $conn,
-            $insert_img
-        )
-    ){
-
-        die(
-            "GALLERY ERROR: "
-            . mysqli_error($conn)
-        );
-    }
-
-   // حفظ رسالة النجاح
     header("Location: dashboard.php?msg=تم إضافة المحتوى بنجاح");
     exit();
-
-    
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 
+</script>
+
+
     <meta charset="UTF-8">
-
-    <title>
-        إضافة محتوى
-    </title>
-
+    <title>إضافة محتوى</title>
     <link rel="stylesheet" href="../public/css/shared.css">
-
-    <link rel="stylesheet" href="../public/css/details.css">
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
-        rel="stylesheet"
-    >
-
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<header class="site-header">
-
+<header class="site-header" id="site-header">
     <nav class="navbar">
-
-        <a href="../public/index.php" class="nav-brand">
-
-            اكتشف السعودية
-
-        </a>
-
-        <ul class="nav-menu">
-
+        <a href="../public/index.html" class="nav-brand">اكتشف السعودية</a>
+        <button
+            class="hamburger"
+            id="hamburgerBtn"
+            aria-label="فتح القائمة"
+            aria-expanded="false"
+            aria-controls="navMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="dashboard.php" class="nav-link">لوحة التحكم</a></li>
+            <li><a href="add_content.php" class="nav-link active">إضافة محتوى</a></li>
+            <li><a href="logout.php" class="nav-link">تسجيل الخروج</a></li>
             <li>
-                <a href="dashboard.php" class="nav-link">
-                    لوحة التحكم
-                </a>
+                <button id="nightModeBtn" class="night-mode-btn" type="button" aria-pressed="false">
+                    <span class="mode-icon">🌙</span>
+                    <span class="mode-text">الوضع الليلي</span>
+                </button>
             </li>
-
-            <li>
-                <a href="add_content.php" class="nav-link active">
-                    إضافة محتوى
-                </a>
-            </li>
-
-            <li>
-                <a href="logout.php" class="nav-link">
-                    تسجيل الخروج
-                </a>
-            </li>
-
         </ul>
-
     </nav>
-
 </header>
 
 <main>
-
 <div class="form-container">
 
-    <h1 class="form-title">
+    <h1 class="form-title">إضافة محتوى جديد</h1>
 
-        إضافة محتوى جديد
+    <form method="POST" enctype="multipart/form-data">
 
-    </h1>
-    <?php if (isset($success_message)) : ?>
+        <label>اسم المكان *</label>
+        <input type="text" name="name" required>
 
-    <div class="success-message">
-        <?php echo $success_message; ?>
-    </div>
+        <label>المنطقة *</label>
+        <select name="region" required>
+            <option value="" disabled selected>اختر المنطقة</option>
+            <option value="الرياض">الرياض</option>
+            <option value="مكة المكرمة">مكة المكرمة</option>
+            <option value="المدينة المنورة">المدينة المنورة</option>
+            <option value="الشرقية">الشرقية</option>
+            <option value="عسير">عسير</option>
+            <option value="تبوك">تبوك</option>
+            <option value="حائل">حائل</option>
+            <option value="الحدود الشمالية">الحدود الشمالية</option>
+            <option value="الجوف">الجوف</option>
+            <option value="القصيم">القصيم</option>
+            <option value="جازان">جازان</option>
+            <option value="نجران">نجران</option>
+            <option value="الباحة">الباحة</option>
+        </select>
 
-    <?php endif; ?>
-    <form
-        method="POST"
-        enctype="multipart/form-data"
-    >
+        <label>الوصف *</label>
+        <textarea name="description" required></textarea>
 
-        <label>
-            اسم المكان
-        </label>
+        <label>الموقع</label>
+        <input type="text" name="location">
 
-        <input
-            type="text"
-            name="name"
-            required
-        >
+        <label>المميزات</label>
+        <textarea name="features"></textarea>
 
-        <label>
-            الوصف
-        </label>
+        <label>الأنشطة</label>
+        <textarea name="activities"></textarea>
 
-        <textarea
-            name="description"
-            required
-        ></textarea>
+        <label>أهم المعالم</label>
+        <textarea name="top_landmarks"></textarea>
 
-        <label>
-            الموقع / الاتجاه
-        </label>
+        <label>الصورة الرئيسية *</label>
+        <input type="file" name="main_image" accept="image/*" required>
 
-        <input
-            type="text"
-            name="location"
-        >
+        <label>صورة المعرض الأولى *</label>
+        <input type="file" name="gallery_image_1" accept="image/*" required>
 
-        <label>
-            المميزات
-        </label>
+        <label>صورة المعرض الثانية (اختياري)</label>
+        <input type="file" name="gallery_image_2" accept="image/*">
 
-        <textarea
-            name="features"
-        ></textarea>
+        <label>صورة المعرض الثالثة (اختياري)</label>
+        <input type="file" name="gallery_image_3" accept="image/*">
 
-        <label>
-            الأنشطة
-        </label>
-
-        <textarea
-            name="activities"
-        ></textarea>
-
-        <label>
-            أهم المعالم
-        </label>
-
-        <textarea
-            name="top_landmarks"
-        ></textarea>
-
-        <label>
-            الصورة الرئيسية
-        </label>
-
-        <input
-            type="file"
-            name="main_image"
-            accept="image/*"
-            required
-        >
-
-        <button
-            type="submit"
-            name="add"
-        >
-
-            إضافة المحتوى
-
-        </button>
+        <button type="submit" name="add">إضافة المحتوى</button>
 
     </form>
 
 </div>
-
 </main>
 
 <footer class="site-footer">
-
-    <p>
-        © اكتشف السعودية — جامعة الملك سعود
-    </p>
-
+    <p>اكتشف السعودية</p>
 </footer>
 
 <script src="../public/js/home.js"></script>
 
 </body>
-
 </html>

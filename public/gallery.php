@@ -6,187 +6,145 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 include '../includes/db_config.php';
 
-
-$sql = "SELECT * FROM regions";
+$sql = "SELECT * FROM places";
 $result = mysqli_query($conn, $sql);
-
 ?>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
+
+</script>
+
     <meta charset="UTF-8">
-
-    <title>معرض المناطق</title>
-    <link rel="stylesheet" href="../public/css/shared.css">
-    <link rel="stylesheet" href="../public/css/gallery.css">
+    <title>معرض المناطق – اكتشف السعودية</title>
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/gallery.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-
-    
 </head>
 
 <body>
 
-<header class="site-header">
-    <nav class="navbar">
-        <a href="../public/index.php" class="nav-brand">اكتشف السعودية</a>
+<header class="site-header" id="site-header" role="banner">
+    <nav class="navbar" aria-label="التنقل الرئيسي">
+        <a href="index.html" class="nav-brand">اكتشف السعودية</a>
 
-        <ul class="nav-menu">
+        <button
+            class="hamburger"
+            id="hamburgerBtn"
+            aria-label="فتح القائمة"
+            aria-expanded="false"
+            aria-controls="navMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <ul class="nav-menu" id="navMenu">
             <li><a href="index.html" class="nav-link">الرئيسية</a></li>
-            <li><a href="gallery.php" class="nav-link">معرض المناطق</a></li>
-            <li><a href="../admin/dashboard.php" class="nav-link">لوحة التحكم</a></li>
+            <li><a href="gallery.php" class="nav-link active">معرض المناطق</a></li>
+            <li><a href="../admin/login.php" class="nav-link">دخول المشرف</a></li>
             <li>
-    <button id="nightModeBtn" class="night-mode-btn" type="button" aria-pressed="false">
-        <span class="mode-icon">🌙</span>
-        <span class="mode-text">الوضع الليلي</span>
-    </button>
-</li>
+                <button id="nightModeBtn" class="night-mode-btn" type="button" aria-pressed="false">
+                    <span class="mode-icon">🌙</span>
+                    <span class="mode-text">الوضع الليلي</span>
+                </button>
+            </li>
         </ul>
     </nav>
 </header>
 
-<main>
+<main id="main-content" role="main">
 
-    <h1 class="page-title">
-        معرض مناطق المملكة العربية السعودية
-    </h1>
-    <div class="filters">
+    <section aria-labelledby="gallery-title">
 
-    <button onclick="filterRegions('all')">
-        الكل
-    </button>
+        <h1 class="page-title" id="gallery-title">معرض مناطق المملكة العربية السعودية</h1>
 
-    <button onclick="filterRegions('وسطى')">
-        الوسطى
-    </button>
+        <nav class="filters" aria-label="تصفية المناطق">
+            <button onclick="filterRegions('all', event)" class="filter-btn active">الكل</button>
+            <button onclick="filterRegions('الرياض', event)" class="filter-btn">الرياض</button>
+            <button onclick="filterRegions('مكة المكرمة', event)" class="filter-btn">مكة المكرمة</button>
+            <button onclick="filterRegions('المدينة المنورة', event)" class="filter-btn">المدينة المنورة</button>
+            <button onclick="filterRegions('الشرقية', event)" class="filter-btn">الشرقية</button>
+            <button onclick="filterRegions('عسير', event)" class="filter-btn">عسير</button>
+            <button onclick="filterRegions('تبوك', event)" class="filter-btn">تبوك</button>
+            <button onclick="filterRegions('حائل', event)" class="filter-btn">حائل</button>
+            <button onclick="filterRegions('الحدود الشمالية', event)" class="filter-btn">الحدود الشمالية</button>
+            <button onclick="filterRegions('الجوف', event)" class="filter-btn">الجوف</button>
+            <button onclick="filterRegions('القصيم', event)" class="filter-btn">القصيم</button>
+            <button onclick="filterRegions('جازان', event)" class="filter-btn">جازان</button>
+            <button onclick="filterRegions('نجران', event)" class="filter-btn">نجران</button>
+            <button onclick="filterRegions('الباحة', event)" class="filter-btn">الباحة</button>
+        </nav>
 
-    <button onclick="filterRegions('غربية')">
-        الغربية
-    </button>
+        <div class="gallery-container" role="list">
 
-    <button onclick="filterRegions('شرقية')">
-        الشرقية
-    </button>
+            <?php while ($place = mysqli_fetch_assoc($result)) { ?>
 
-    <button onclick="filterRegions('شمالية')">
-        الشمالية
-    </button>
+                <article class="card" data-region="<?php echo $place['region']; ?>" role="listitem">
 
-    <button onclick="filterRegions('جنوبية')">
-        الجنوبية
-    </button>
+                    <?php if (!empty($place['main_image'])) { ?>
+                        <img
+                            src="<?php echo $place['main_image']; ?>"
+                            alt="صورة <?php echo $place['name']; ?>">
+                    <?php } else { ?>
+                        <img
+                            src="images/default.jpg"
+                            alt="لا توجد صورة">
+                    <?php } ?>
 
-</div>
-    <div class="gallery-container">
+                    <div class="card-content">
 
-        <?php while($region = mysqli_fetch_assoc($result)) { ?>
+                        <h2><?php echo $place['name']; ?></h2>
 
-            <?php
+                        <p class="region-label">
+                            <?php echo $place['region']; ?>
+                        </p>
 
-            $region_id = $region['id'];
+                        <p class="description">
+                            <?php echo $place['description']; ?>
+                        </p>
 
-            // جلب أول صورة مرتبطة بالمنطقة
-            $img_sql = "
-                SELECT *
-                FROM gallery_images
-                WHERE place_id = $region_id
-                ORDER BY image_order ASC
-                LIMIT 1
-            ";
+                        <a href="details.php?id=<?php echo $place['id']; ?>" class="details-btn">
+                            عرض التفاصيل
+                        </a>
 
-            $img_result = mysqli_query($conn, $img_sql);
+                    </div>
 
-            $img = mysqli_fetch_assoc($img_result);
+                </article>
 
-            ?>
+            <?php } ?>
 
-            <div class="card" data-direction="<?php echo $region['direction']; ?>">
+        </div>
 
-                <?php if($img){ ?>
-
-                    <img
-                        src="<?php echo $img['image_path']; ?>"
-                        alt="<?php echo $region['name']; ?>"
-                    >
-
-                <?php } else { ?>
-
-                    <img
-                        src="images/default.jpg"
-                        alt="No Image"
-                    >
-
-                <?php } ?>
-
-                <div class="card-content">
-
-                    <h2>
-                        <?php echo $region['name']; ?>
-                    </h2>
-
-                    <p class="direction">
-                        <?php echo $region['direction']; ?>
-                    </p>
-
-                    <p class="description">
-                        <?php echo $region['description']; ?>
-                    </p>
-
-                    <a
-                        href="details.php?id=<?php echo $region['id']; ?>"
-                        class="details-btn"
-                    >
-                        عرض التفاصيل
-                    </a>
-
-                </div>
-
-            </div>
-
-        <?php } ?>
-
-    </div>
+    </section>
 
 </main>
 
-<footer>
-
-    © اكتشف السعودية — جامعة الملك سعود
-
+<footer class="site-footer" role="contentinfo">
+    <p>© اكتشف السعودية — جامعة الملك سعود</p>
 </footer>
+
 <script>
+function filterRegions(region, event) {
+    const cards = document.querySelectorAll('.card');
+    const buttons = document.querySelectorAll('.filter-btn');
 
-function filterRegions(direction){
-
-    let cards = document.querySelectorAll('.card');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
 
     cards.forEach(card => {
-
-        if(direction === 'all'){
-
+        if (region === 'all') {
             card.style.display = 'block';
-
         } else {
-
-            let cardDirection = card.dataset.direction;
-
-            if(cardDirection === direction){
-
-                card.style.display = 'block';
-
-            } else {
-
-                card.style.display = 'none';
-            }
+            card.style.display = (card.dataset.region === region) ? 'block' : 'none';
         }
-
     });
-
 }
-
 </script>
-<script src="js/home.js"></script>
-</body>
 
-</html>
+<script src="js/home.js"></script>
+
+</body>
+</html> 

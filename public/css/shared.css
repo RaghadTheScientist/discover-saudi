@@ -1,31 +1,29 @@
 
 
-
 :root {
-    --bg-color:        #f5f5f5;
-    --card-bg:         #ffffff;
-    --text-color:      #222222;
-    --text-muted:      #555555;
-    --border-color:    #dddddd;
-    --nav-bg:          #1a5c38;
-    --nav-text:        #ffffff;
-    --footer-bg:       #1a5c38;
-    --footer-text:     #ffffff;
-    --shadow:          rgba(0,0,0,0.08);
+    --bg-color:      #f5f5f5;
+    --card-bg:       #ffffff;
+    --text-color:    #222222;
+    --text-muted:    #555555;
+    --border-color:  #dddddd;
+    --nav-bg:        #1a5c38;
+    --nav-text:      #ffffff;
+    --footer-bg:     #1a5c38;
+    --footer-text:   #ffffff;
+    --shadow:        rgba(0,0,0,0.08);
 }
 
-
-body.night-mode {
-    --bg-color:        #121212;
-    --card-bg:         #1e1e1e;
-    --text-color:      #e0e0e0;
-    --text-muted:      #aaaaaa;
-    --border-color:    #333333;
-    --nav-bg:          #0d3d22;
-    --nav-text:        #ffffff;
-    --footer-bg:       #0d3d22;
-    --footer-text:     #cccccc;
-    --shadow:          rgba(0,0,0,0.3);
+html.night-mode {
+    --bg-color:      #121212;
+    --card-bg:       #1e1e1e;
+    --text-color:    #e0e0e0;
+    --text-muted:    #aaaaaa;
+    --border-color:  #333333;
+    --nav-bg:        #0d3d22;
+    --nav-text:      #ffffff;
+    --footer-bg:     #0d3d22;
+    --footer-text:   #cccccc;
+    --shadow:        rgba(0,0,0,0.3);
 }
 
 *, *::before, *::after {
@@ -53,7 +51,6 @@ main {
     flex: 1;
 }
 
-
 .skip-link {
     position: absolute;
     top: -100%;
@@ -70,7 +67,6 @@ main {
 .skip-link:focus {
     top: 0;
 }
-
 
 .sr-only {
     position: absolute;
@@ -100,6 +96,8 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 1001;
 }
 
 .nav-brand {
@@ -131,7 +129,6 @@ main {
     background-color: rgba(255,255,255,0.15);
 }
 
-
 .night-mode-btn {
     background: rgba(255,255,255,0.15);
     border: none;
@@ -151,7 +148,6 @@ main {
     background: rgba(255,255,255,0.25);
 }
 
-/* ── Hamburger (Mobile) ── */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -159,7 +155,10 @@ main {
     background: none;
     border: none;
     cursor: pointer;
+    pointer-events: auto;
     padding: 4px;
+    z-index: 1002;
+    position: relative;
 }
 
 .hamburger span {
@@ -171,7 +170,7 @@ main {
     transition: transform 0.3s;
 }
 
-/* ── Footer ── */
+
 .site-footer {
     background-color: var(--footer-bg);
     color: var(--footer-text);
@@ -181,31 +180,7 @@ main {
     margin-top: auto;
 }
 
-/* ── Mobile Responsive Navbar ── */
-@media (max-width: 768px) {
-    .hamburger {
-        display: flex;
-    }
 
-    .nav-menu {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        left: 0;
-        background-color: var(--nav-bg);
-        padding: 20px;
-        gap: 12px;
-        box-shadow: 0 4px 12px var(--shadow);
-    }
-
-    .nav-menu.open {
-        display: flex;
-    }
-}
-
-/* Dashboard + Update Form */
 .page-container,
 .dashboard-container {
     max-width: 1100px;
@@ -261,6 +236,7 @@ textarea {
     min-height: 120px;
     resize: vertical;
 }
+
 
 button,
 .btn,
@@ -318,6 +294,7 @@ td {
     color: var(--text-color);
 }
 
+
 .success-message {
     background-color: rgba(26, 92, 56, 0.12);
     color: var(--nav-bg);
@@ -328,52 +305,77 @@ td {
     font-weight: 700;
 }
 
-.modal{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.45);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
-.modal-content{
-    background:var(--card-bg);
-    padding:30px;
-    border-radius:18px;
-    width:350px;
-    text-align:center;
-    box-shadow:0 6px 18px rgba(0,0,0,0.2);
+.modal-content {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 18px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
     font-family: 'Tajawal', sans-serif;
 }
 
-.modal-content h3{
-    color:var(--nav-bg);
-    margin-bottom:15px;
+.modal-content h3 {
+    color: var(--nav-bg);
+    margin-bottom: 15px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
     font-family: 'Tajawal', sans-serif;
+    font-weight: bold;
 }
 
-.modal-buttons{
-    display:flex;
-    justify-content:center;
-    gap:12px;
-    margin-top:20px;
+#confirmBtn {
+    background: #b71c1c;
+    color: white;
 }
 
-.modal-buttons button{
-    padding:10px 18px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-family:'Tajawal', sans-serif;
-    font-weight:bold;
-}
 
-#confirmBtn{
-    background:#b71c1c;
-    color:white;
+@media (max-width: 700px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        left: 0;
+        background-color: var(--nav-bg);
+        padding: 20px;
+        gap: 12px;
+        box-shadow: 0 4px 12px var(--shadow);
+        z-index: 999;
+    }
+
+    .nav-menu.open {
+        display: flex;
+    }
 }

@@ -1,232 +1,99 @@
+.page-title {
+    text-align: center;
+    margin: 40px 0;
+    font-size: 2.5rem;
+    color: var(--nav-bg);
+}
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-        }
+.gallery-container {
+    width: 90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    padding-bottom: 50px;
+}
 
-        body{
-            font-family:'Tajawal', sans-serif;
-            background:#f5f5f5;
-        }
+.card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px var(--shadow);
+    transition: 0.3s;
+}
 
-        header{
-            background:#0b5d1e;
-            padding:20px;
-        }
+.card:hover {
+    transform: translateY(-6px);
+}
 
-        nav{
-            width:90%;
-            margin:auto;
+.card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+}
 
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-        }
+.card-content {
+    padding: 20px;
+    text-align: center;
+}
 
-        .logo{
-            color:white;
-            font-size:28px;
-            font-weight:bold;
-            text-decoration:none;
-        }
+.card-content h2 {
+    margin-bottom: 10px;
+    color: var(--nav-bg);
+}
 
-        .nav-links{
-            list-style:none;
-            display:flex;
-            gap:20px;
-        }
+.region-label {
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    font-size: 18px;
+}
 
-        .nav-links a{
-            color:white;
-            text-decoration:none;
-            font-size:18px;
-        }
+.description {
+    color: var(--text-muted);
+    line-height: 1.8;
+}
 
-        .page-title{
-            text-align:center;
-            margin:40px 0;
-            font-size:42px;
-            color:#0b5d1e;
-        }
-
-        .gallery-container{
-
-            width:90%;
-            margin:auto;
-
-            display:grid;
-
-            grid-template-columns:
-            repeat(auto-fit,minmax(300px,1fr));
-
-            gap:25px;
-
-            padding-bottom:50px;
-        }
-
-        .card{
-
-            background:white;
-
-            border-radius:15px;
-
-            overflow:hidden;
-
-            box-shadow:0 4px 12px rgba(0,0,0,0.1);
-
-            transition:0.3s;
-        }
-
-        .card:hover{
-            transform:translateY(-6px);
-        }
-
-        .card img{
-
-            width:100%;
-            height:230px;
-
-            object-fit:cover;
-        }
-
-        .card-content{
-            padding:20px;
-            text-align:center;
-        }
-
-        .card-content h2{
-            margin-bottom:10px;
-            color:#0b5d1e;
-        }
-
-        .direction{
-            color:#777;
-            margin-bottom:15px;
-            font-size:18px;
-        }
-
-        .description{
-            color:#444;
-            line-height:1.8;
-        }
-
-        .details-btn{
-
-            display:inline-block;
-
-            margin-top:20px;
-
-            background:#0b5d1e;
-
-            color:white;
-
-            text-decoration:none;
-
-            padding:10px 18px;
-
-            border-radius:8px;
-
-            transition:0.3s;
-        }
-
-        .details-btn:hover{
-            background:#084615;
-        }
-
-        footer{
-
-            background:#0b5d1e;
-
-            color:white;
-
-            text-align:center;
-
-            padding:20px;
-
-            margin-top:40px;
-        }
-
-        /* Dark mode for whole page */
-body.night-mode {
-    background-color: #121212;
+.details-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: var(--nav-bg);
     color: white;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    transition: 0.3s;
 }
 
-/* Example navbar dark mode */
-body.night-mode .site-header {
-    background-color: #1e1e1e;
+.details-btn:hover {
+    opacity: 0.9;
 }
 
-/* Example cards dark mode */
-body.night-mode .feature-card,
-body.night-mode .stat-card,
-body.night-mode .about-section {
-    background-color: #1f1f1f;
+.filters {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+.filter-btn {
+    background: var(--nav-bg);
     color: white;
-}
-
-/* Button styling */
-.night-mode-btn {
     border: none;
-    padding: 10px 15px;
+    padding: 10px 18px;
+    margin: 5px;
     border-radius: 8px;
     cursor: pointer;
-}
-body.night-mode .card {
-    background-color: #1f1f1f;
-    box-shadow: 0 4px 12px rgba(255,255,255,0.08);
-}
-
-body.night-mode .card-content h2 {
-    color: #ffffff;
+    font-size: 16px;
+    font-family: 'Tajawal', sans-serif;
+    transition: 0.3s;
 }
 
-body.night-mode .direction {
-    color: #cccccc;
+.filter-btn:hover,
+.filter-btn.active {
+    opacity: 0.85;
 }
 
-body.night-mode .description {
-    color: #e0e0e0;
-}
-
-body.night-mode .page-title {
-    color: white;
-}
-.filters{
-
-    text-align:center;
-
-    margin-bottom:30px;
-}
-
-.filters button{
-
-    background:#0b5d1e;
-
-    color:white;
-
-    border:none;
-
-    padding:10px 18px;
-
-    margin:5px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    font-size:16px;
-
-    transition:0.3s;
-}
-
-.filters button:hover{
-
-    background:#084615;
-}
-
-body.night-mode .filters button{
-
-    background:#333;
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 1.8rem;
+    }
 }
