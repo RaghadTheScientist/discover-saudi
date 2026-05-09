@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', function () {
             document.documentElement.classList.toggle('night-mode');
 
             if (document.documentElement.classList.contains('night-mode')) {
-                if (modeIcon) modeIcon.textContent = 'sun';
-                if (modeText) modeText.textContent = 'light';
+                if (modeIcon) modeIcon.textContent = '\u2600\uFE0F';
+                if (modeText) modeText.textContent = '\u0627\u0644\u0648\u0636\u0639 \u0627\u0644\u0646\u0647\u0627\u0631\u064A';
                 nightModeBtn.setAttribute('aria-pressed', 'true');
-            } else {
-                if (modeIcon) modeIcon.textContent = 'moon';
-                if (modeText) modeText.textContent = 'dark';
+                } else {
+                if (modeIcon) modeIcon.textContent = '\uD83C\uDF19';
+                if (modeText) modeText.textContent = '\u0627\u0644\u0648\u0636\u0639 \u0627\u0644\u0644\u064A\u0644\u064A';
                 nightModeBtn.setAttribute('aria-pressed', 'false');
             }
         });
